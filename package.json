@@ -1,0 +1,19 @@
+{
+  "name": "link-keeper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adarshSrivastava01/Link-Keeper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adarshSrivastava01/Link-Keeper/issues"
+  },
+  "homepage": "https://github.com/adarshSrivastava01/Link-Keeper#readme"
+}
