@@ -1,5 +1,8 @@
 {
     "env": {
-        "JWT_KEY": "supersecret_key"
+        "JWT_KEY": "supersecret_key",
+        "DB_USER": "adarsh",
+        "DB_PASSWORD": "adarsh123",
+        "DB_NAME": "linkkeeper"
     }
 }

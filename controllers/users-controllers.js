@@ -84,4 +84,7 @@ const signup = async (req, res, next) => {
     .json({ userId: createdUser.id, email: createdUser.email, token: token });
 };
 
+const login = async (req, res, next) => {};
+
 exports.signup = signup;
+exports.login = login;

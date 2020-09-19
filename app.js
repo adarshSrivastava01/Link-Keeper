@@ -33,4 +33,14 @@ app.use((req, res, next) => {
   const error = new HttpError("Could not find the specified Route.", 404);
 });
 
-app.listen(3000);
+mongoose
+  .connect(
+    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@linkkeepercluster.ea1rl.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
+    { useNewUrlParser: true }
+  )
+  .then(() => {
+    app.listen(5000);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
