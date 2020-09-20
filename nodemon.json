@@ -1,8 +1,9 @@
 {
     "env": {
         "JWT_KEY": "supersecret_key",
-        "DB_USER": "adarsh",
-        "DB_PASSWORD": "adarsh123",
-        "DB_NAME": "linkkeeper"
+        "DB_USER": "linkadarsh",
+        "DB_PASSWORD": "linkadarsh123",
+        "DB_NAME": "linkkeeper",
+        "SENDGRID_API_KEY": "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"
     }
 }

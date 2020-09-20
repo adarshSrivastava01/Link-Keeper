@@ -39,6 +39,7 @@ mongoose
     { useNewUrlParser: true }
   )
   .then(() => {
+    console.log("Connected to Database");
     app.listen(5000);
   })
   .catch((err) => {

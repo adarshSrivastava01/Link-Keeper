@@ -1,9 +1,19 @@
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
+const sendgridTransport = require("nodemailer-sendgrid-transport");
 
 const HttpError = require("../models/http-error");
 const User = require("../models/user");
+
+const transporter = nodemailer.createTransport(
+  sendgridTransport({
+    auth: {
+      api_key: process.env.SENDGRID_API_KEY,
+    },
+  })
+);
 
 const signup = async (req, res, next) => {
   const errors = validationResult(req);
@@ -77,6 +87,17 @@ const signup = async (req, res, next) => {
       500
     );
     return next(error);
+  }
+
+  try {
+    await transporter.sendMail({
+      to: createdUser.email,
+      from: "herecomesthebeastlesnar@gmail.com",
+      subject: "Welcome to LinkKeeper",
+      html: `<h1>You are successfully signed up!!!<br>Name: ${createdUser.name}</h1>`,
+    });
+  } catch (err) {
+    console.log(err);
   }
 
   res
