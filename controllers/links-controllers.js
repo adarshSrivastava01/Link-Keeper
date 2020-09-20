@@ -69,12 +69,12 @@ const createLink = async (req, res, next) => {
   console.log(user);
 
   try {
-    const sess = mongoose.startSession();
+    const sess = await mongoose.startSession();
     sess.startTransaction();
     await createdLink.save({ session: sess });
     user.links.push(createdLink);
     await user.save({ session: sess });
-    await (await sess).commitTransaction();
+    await sess.commitTransaction();
   } catch (err) {
     const error = new HttpError("Creating link failed, please try again.", 500);
     return next(error);
@@ -126,7 +126,50 @@ const updateLink = async (req, res, next) => {
   res.status(200).json({ link: link.toObject({ getters: true }) });
 };
 
-const deleteLink = (req, res, next) => {};
+const deleteLink = async (req, res, next) => {
+  const linkId = req.params.lid;
+
+  let link;
+  try {
+    link = await Link.findById(linkId).populate("creator");
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not delete link.",
+      500
+    );
+    return next(error);
+  }
+
+  if (!link) {
+    const error = new HttpError("Could not find link for this id.", 404);
+    return next(error);
+  }
+
+  if (link.creator.id !== req.userData.userId) {
+    const error = new HttpError(
+      "You are not allowed to delete this link.",
+      401
+    );
+    return next(error);
+  }
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await link.remove({ session: sess });
+    link.creator.links.pull(link);
+    await link.creator.save({ session: sess });
+    await sess.commitTransaction();
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not delete link.",
+      500
+    );
+    return next(error);
+  }
+
+  res.status(200).json({ message: "Deleted link." });
+};
 
 exports.getLinksByUserId = getLinksByUserId;
 exports.createLink = createLink;

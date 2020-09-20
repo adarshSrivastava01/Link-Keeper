@@ -1,4 +1,5 @@
 const express = require("express");
+const { check } = require("express-validator");
 
 const linksControllers = require("../controllers/links-controllers");
 const checkAuth = require("../middleware/auth-middleware");
